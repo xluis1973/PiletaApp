@@ -1,0 +1,7 @@
+{
+  "name": "PiletaApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

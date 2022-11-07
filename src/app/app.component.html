@@ -1,0 +1,45 @@
+<ion-app>
+
+  <ion-menu side="start" menuId="first" contentId="main">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Tareas</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle >
+
+          <ion-item routerLink="generar" detail>
+            <ion-icon slot="start" [name]="ruta.icon" color="primary"></ion-icon>
+            Generar Carnets
+      
+          </ion-item>
+
+          <ion-item routerLink="imprimir" detail>
+            <ion-icon slot="start" [name]="ruta.icon" color="primary"></ion-icon>
+            Imprimir Carnets
+      
+          </ion-item>
+
+          <ion-item routerLink="generar" detail>
+            <ion-icon slot="start" [name]="ruta.icon" color="primary"></ion-icon>
+            Anular Carnet
+      
+          </ion-item>
+
+          <ion-item routerLink="generar" detail>
+            <ion-icon slot="start" [name]="ruta.icon" color="primary"></ion-icon>
+            Salir
+      
+          </ion-item>
+      
+        </ion-menu-toggle>
+
+        
+       
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-app>
