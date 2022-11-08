@@ -2,7 +2,7 @@
 
 <ion-content class="ion-padding">
   <ion-grid fixed>
-    <ion-row>
+    <ion-row class="custom-bg">
       <ion-col size="4">
         <div>
           <webcam [height]="300" 
@@ -11,26 +11,24 @@
                       (imageCapture)="handleImage($event)">
            </webcam>
             
-          <button class="actionBtn" (click)="triggerSnapshot();">
-              Click Here and take the Shot</button>
-            
-          <div class="snapshot" *ngIf="webcamImage">
-            <h2>Here is your image!</h2>
-            <img [src]="webcamImage.imageAsDataUrl"/>
-          </div>
+          <ion-button class="actionBtn" (click)="triggerSnapshot();">
+              Tomar Foto</ion-button>
+          
+          
         </div>
+
       </ion-col>
       <ion-col size="8">
 
-        <form (ngSubmit)="guardar(formulario)" #formulario="ngForm" >
+        <form (ngSubmit)="guardar(formulario)" #formulario="ngForm"  *ngIf="noHayTitular">
         
                 
-        <ion-row>
+        <ion-row class="custom-bg">
           <ion-col>
             
               <ion-list>
                 
-                <ion-item>
+                <ion-item >
                   <ion-label>Nro de Afiliado</ion-label>
                   <ion-input name="nroAfiliado"
                             required
@@ -42,23 +40,28 @@
                 <ion-item>
                   <ion-label>Dni</ion-label>
                   <ion-input name="dni"
+                              required
                              type="number"
                              [(ngModel)]="titular.dni"
                              ></ion-input>
                 </ion-item>
 
-                <ion-item>
-                    <ion-label>Nro de Empresa</ion-label>
-                    <ion-input name="nroEmpresa"
-                               type="number"
-                               [(ngModel)]="titular.nroEmpresa"
-                               ></ion-input>
+               <ion-item>
+                   
+                      
+                        <ion-label>Empresa</ion-label>
+                        <ion-select placeholder="Seleccione una">
+                          <ion-select-option value="f">Aiello</ion-select-option>
+                          <ion-select-option value="m">Male</ion-select-option>
+                        </ion-select>
+                      
                   </ion-item>
 
                   <ion-item>
                     <ion-label>Apellido</ion-label>
                     <ion-input name="apellido"
                                type="text"
+                               required
                                [(ngModel)]="titular.apellido"
                                ></ion-input>
                   </ion-item>
@@ -66,6 +69,7 @@
                     <ion-label>Nombre</ion-label>
                     <ion-input name="nombre"
                                type="text"
+                               required
                                [(ngModel)]="titular.nombre"
                                ></ion-input>
                   </ion-item>
@@ -74,8 +78,16 @@
                     <ion-label>Fecha de Nacimiento</ion-label>
                     <ion-input name="fechaNacimiento"
                                type="date"
+                               required
                                [(ngModel)]="titular.fechaNacimiento"
                                ></ion-input>
+                  </ion-item>
+
+                  <ion-item *ngIf="webcamImage">
+                    <ion-thumbnail slot="start">
+                      <ion-img [src]="webcamImage.imageAsDataUrl"></ion-img>
+                    </ion-thumbnail>
+                    <ion-label>Foto Actual</ion-label>
                   </ion-item>
 
                   
@@ -83,19 +95,149 @@
               </ion-list>
           </ion-col>
         </ion-row>
+      
+      
         
+
         <ion-row>
           <ion-col class="ion-text-center">
             <ion-button type="submit"
                         color="tertiary"
                         shape="round">
-            Registrar
+            Registrar Titular
           </ion-button>
         </ion-col>
       </ion-row>
+
    
     </form>
+    <form (ngSubmit)="guardarFamiliar(familiarForm)" #familiarForm="ngForm"  *ngIf="noHayFamiliar">
+        
+                
+      <ion-row class="custom-bg">
+        <ion-col>
+          
+            <ion-list>
+              
+              <ion-item >
+                <ion-label>Nro de Afiliado</ion-label>
+                <ion-input name="nroAfiliadoFamiliar"
+                          required
+                          type="number"
+                          [(ngModel)]="familiar.nroAfiliado"
+                           ></ion-input>
+              </ion-item>
 
+              <ion-item>
+                <ion-label>Dni</ion-label>
+                <ion-input name="dniFamiliar"
+                            required
+                           type="number"
+                           [(ngModel)]="familiar.dni"
+                           ></ion-input>
+              </ion-item>
+
+             
+                <ion-item>
+                  <ion-label>Apellido</ion-label>
+                  <ion-input name="apellidoFamiliar"
+                             type="text"
+                             required
+                             [(ngModel)]="familiar.apellido"
+                             ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input name="nombreFamiliar"
+                             type="text"
+                             required
+                             [(ngModel)]="familiar.nombre"
+                             ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Fecha de Nacimiento</ion-label>
+                  <ion-input name="fechaNacimientoFamiliar"
+                             type="date"
+                             required
+                             [(ngModel)]="familiar.fechaNacimiento"
+                             ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Parentesco</ion-label>
+                  <ion-input name="parentescoFamiliar"
+                             type="text"
+                             required
+                             [(ngModel)]="familiar.parentesco"
+                             ></ion-input>
+                </ion-item>
+
+                <ion-item *ngIf="webcamImage">
+                  <ion-thumbnail slot="start">
+                    <ion-img [src]="webcamImage.imageAsDataUrl"></ion-img>
+                  </ion-thumbnail>
+                  <ion-label>Foto Actual</ion-label>
+                </ion-item>
+
+                
+
+            </ion-list>
+        </ion-col>
+      </ion-row>
+    
+    
+      
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button type="submit"
+                      color="tertiary"
+                      shape="round">
+          Registrar Familiar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+ 
+  </form>
+      </ion-col>
+    </ion-row>
+   
+  </ion-grid>
+  <ion-grid fixed>
+    <ion-row class="custom-bg-cards">
+      <ion-col size="4">
+        <ion-card *ngFor ="let titular of lista">
+          <img [src]="titular.foto" />
+          <ion-card-header>
+            <ion-card-subtitle>{{titular.apellido}}, {{titular.nombre}}</ion-card-subtitle>
+            <ion-card-title>{{titular.nroAfiliado}} (Titular)</ion-card-title>
+           
+          </ion-card-header>
+          <ion-card-content>
+            <p>Dni: {{titular.dni}}</p>
+            <p>Fecha de Nacimiento: {{titular.fechaNacimiento}}</p>
+            <p>Empresa: {{titular.nroEmpresa}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row class="custom-bg-cards">
+      <ion-col size="4">
+        <ion-card *ngFor ="let familiar of listaFamiliares">
+          <img [src]="familiar.foto" />
+          <ion-card-header>
+            <ion-card-subtitle>{{familiar.apellido}}, {{familiar.nombre}}</ion-card-subtitle>
+            <ion-card-title>{{familiar.nroAfiliado}} ({{familiar.parentesco}})</ion-card-title>
+           
+          </ion-card-header>
+          <ion-card-content>
+            <p>Dni: {{familiar.dni}}</p>
+            <p>Fecha de Nacimiento: {{familiar.fechaNacimiento}}</p>
+            
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>

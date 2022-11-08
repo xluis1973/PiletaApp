@@ -19,7 +19,19 @@ const routes: Routes = [
   {
     path: 'generar',
     loadChildren: () => import('./pages/generar/generar.module').then( m => m.GenerarPageModule)
+  },  {
+    path: 'empresa',
+    loadChildren: () => import('./pages/empresa/empresa.module').then( m => m.EmpresaPageModule)
   },
+  {
+    path: 'imprimir',
+    loadChildren: () => import('./pages/imprimir/imprimir.module').then( m => m.ImprimirPageModule)
+  },
+  {
+    path: 'anular',
+    loadChildren: () => import('./pages/anular/anular.module').then( m => m.AnularPageModule)
+  },
+
 ];
 
 @NgModule({
