@@ -1,14 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>generar</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header nombre="Generar Carnets" ></app-header>
 
 <ion-content class="ion-padding">
   <ion-grid fixed>
     <ion-row>
       <ion-col size="4">
-        
+        <div>
+          <webcam [height]="300" 
+                  [width]="300" 
+                  [trigger]="triggerObservable"
+                      (imageCapture)="handleImage($event)">
+           </webcam>
+            
+          <button class="actionBtn" (click)="triggerSnapshot();">
+              Click Here and take the Shot</button>
+            
+          <div class="snapshot" *ngIf="webcamImage">
+            <h2>Here is your image!</h2>
+            <img [src]="webcamImage.imageAsDataUrl"/>
+          </div>
+        </div>
       </ion-col>
       <ion-col size="8">
 
@@ -21,92 +31,54 @@
               <ion-list>
                 
                 <ion-item>
-                  <ion-label>Cuil</ion-label>
-                  <ion-input name="cuil"
+                  <ion-label>Nro de Afiliado</ion-label>
+                  <ion-input name="nroAfiliado"
                             required
-                            type="text"
-                            [(ngModel)]="guia.cuil"
+                            type="number"
+                            [(ngModel)]="titular.nroAfiliado"
                              ></ion-input>
                 </ion-item>
   
                 <ion-item>
-                  <ion-label>Apellido</ion-label>
-                  <ion-input name="apellido"
-                             type="text"
-                             [(ngModel)]="usuario.apellido"
+                  <ion-label>Dni</ion-label>
+                  <ion-input name="dni"
+                             type="number"
+                             [(ngModel)]="titular.dni"
                              ></ion-input>
                 </ion-item>
 
                 <ion-item>
+                    <ion-label>Nro de Empresa</ion-label>
+                    <ion-input name="nroEmpresa"
+                               type="number"
+                               [(ngModel)]="titular.nroEmpresa"
+                               ></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Apellido</ion-label>
+                    <ion-input name="apellido"
+                               type="text"
+                               [(ngModel)]="titular.apellido"
+                               ></ion-input>
+                  </ion-item>
+                  <ion-item>
                     <ion-label>Nombre</ion-label>
                     <ion-input name="nombre"
                                type="text"
-                               [(ngModel)]="usuario.nombre"
+                               [(ngModel)]="titular.nombre"
                                ></ion-input>
                   </ion-item>
 
                   <ion-item>
-                    <ion-label>Dirección</ion-label>
-                    <ion-input name="direccion"
-                               type="text"
-                               [(ngModel)]="usuario.domicilio"
-                               ></ion-input>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label>Ciudad</ion-label>
-                    <ion-input name="ciudad"
-                               type="text"
-                               [(ngModel)]="usuario.ciudad"
-                               ></ion-input>
-                  </ion-item>
-
-                  <ion-item>
-                    <ion-label>Teléfono</ion-label>
-                    <ion-input name="telefono"
-                               type="text"
-                               [(ngModel)]="usuario.telefono"
-                               ></ion-input>
-                  </ion-item>
-
-                  <ion-item>
-                    <ion-label>EMail</ion-label>
-                    <ion-input name="email"
-                               type="email"
-                               [(ngModel)]="guia.email"
-                               ></ion-input>
-                  </ion-item>
-
-                  <ion-item>
-                    <ion-label>Password</ion-label>
-                    <ion-input name="password"
-                               type="password"
-                               [(ngModel)]="guia.password"
-                               ></ion-input>
-                  </ion-item>
-  
-                  <ion-item>
-                    <ion-label>Nro. Habilitación</ion-label>
-                    <ion-input name="habilitacion"
-                               type="number"
-                               [(ngModel)]="guia.nroHabiliatacion"
-                               ></ion-input>
-                  </ion-item>
-
-                  <ion-item>
-                    <ion-label>Alta Habilitación</ion-label>
-                    <ion-input name="altaHabilitacion"
+                    <ion-label>Fecha de Nacimiento</ion-label>
+                    <ion-input name="fechaNacimiento"
                                type="date"
-                               [(ngModel)]="guia.fHabilitacion"
+                               [(ngModel)]="titular.fechaNacimiento"
                                ></ion-input>
                   </ion-item>
 
-                  <ion-item>
-                    <ion-label>Vencimiento Habilitación</ion-label>
-                    <ion-input name="vtoHabilitacion"
-                               type="date"
-                               [(ngModel)]="guia.vtoHabilitacion"
-                               ></ion-input>
-                  </ion-item>
+                  
   
               </ion-list>
           </ion-col>

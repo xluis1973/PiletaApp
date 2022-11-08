@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { GenerarPageRoutingModule } from './generar-routing.module';
 
 import { GenerarPage } from './generar.page';
+import { ComponentsModule } from '../../components/components/components.module';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GenerarPageRoutingModule
+    GenerarPageRoutingModule,
+    ComponentsModule,
+    WebcamModule
   ],
   declarations: [GenerarPage]
 })

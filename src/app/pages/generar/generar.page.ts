@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { WebcamImage } from 'ngx-webcam';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-generar',
@@ -8,14 +10,14 @@ import { NgForm } from '@angular/forms';
 })
 export class GenerarPage implements OnInit {
 
-  usuario={
-    identificador:"",
+  titular={
+    nroAfiliado:0,
+    dni:0,
+    nroEmpresa:0,
     apellido:"",
     nombre:"",
-    domicilio:"", 
-    ciudad:"",
-    telefono:"",
-    activo:true  };
+    fechaNacimiento: null,
+    foto:""  };
 
   guia={
     identificador:"",
@@ -33,4 +35,19 @@ export class GenerarPage implements OnInit {
   }
   guardar(formulario:NgForm){}
   
+  title = 'gfgangularwebcam';
+  
+  public webcamImage: WebcamImage = null;
+  private trigger: Subject<void> = new Subject<void>();
+  triggerSnapshot(): void {
+   this.trigger.next();
+  }
+  handleImage(webcamImage: WebcamImage): void {
+   console.info('Saved webcam image', webcamImage);
+   this.webcamImage = webcamImage;
+  }
+   
+  public get triggerObservable(): Observable<void> {
+   return this.trigger.asObservable();
+  }
 }
