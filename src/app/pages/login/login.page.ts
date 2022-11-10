@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginPage implements OnInit {
     password:'123'
   };
 
-  constructor(private navCtrl:NavController) { }
+  constructor(private navCtrl:NavController, private usuarioSrv:UsuarioService) { }
 
   ngOnInit() {
   }
@@ -24,14 +25,15 @@ export class LoginPage implements OnInit {
     }
     this.navCtrl.navigateRoot('/menu',{animated:true});
      
-     /*const valido= await this.userService.obtenerToken(this.loginUser.email,this.loginUser.password);
+     const valido= await this.usuarioSrv.obtenerToken(this.loginUser.email,this.loginUser.password);
      if(valido){
        //Navegar al menú 
        this.navCtrl.navigateRoot('/menu',{animated:true});
      }else {
          //mostrar alerta
-         this.uiServiceService.alertaInformativa("Usuario y/o Contraseña Incorrecta");
-     }*/
+        // this.uiServiceService.alertaInformativa("Usuario y/o Contraseña Incorrecta");
+        console.log("errorororor");
+     }
  }
 
 }

@@ -1,5 +1,65 @@
 <app-header nombre="Gestión de Empresas" ></app-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-grid fixed>
+    <ion-row class="custom-bg">
+    
+      <ion-col >
 
-</ion-content>
+        <form (ngSubmit)="guardar(formulario)" #formulario="ngForm"  >
+        
+                
+        <ion-row class="custom-bg">
+          <ion-col>
+            
+              <ion-list>
+                
+                <ion-item >
+                  <ion-label>Nro de Empresa</ion-label>
+                  <ion-input name="nroEmpresa"
+                            required
+                            type="number"
+                            [(ngModel)]="empresa.nroEmpresa"
+                             ></ion-input>
+                </ion-item>
+  
+                <ion-item>
+                  <ion-label>Razon Social</ion-label>
+                  <ion-input name="razonSocial"
+                              required
+                             type="text"
+                             [(ngModel)]="empresa.razonSocial"
+                             ></ion-input>
+                </ion-item>
+
+               
+
+                  
+  
+              </ion-list>
+          </ion-col>
+        </ion-row>
+      
+      
+        
+
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-button type="submit"
+                        color="tertiary"
+                        shape="round">
+            Registrar Empresa
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+   
+    </form>
+    
+      </ion-col>
+    </ion-row>
+   
+  </ion-grid>
+  
+
+      </ion-content>

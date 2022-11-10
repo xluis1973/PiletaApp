@@ -20,3 +20,20 @@ export interface Titular{
     foto:string,
     
   }
+
+  export interface Empresa{
+
+    nroEmpresa:number,
+    razonSocial:string
+
+  }
+
+  export interface Usuario{
+
+    id?:number,
+    apellido?:string,
+    nombre?:string,
+    email?:string,
+    password?:string
+
+  }
