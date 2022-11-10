@@ -50,9 +50,9 @@
                    
                       
                         <ion-label>Empresa</ion-label>
-                        <ion-select placeholder="Seleccione una">
-                          <ion-select-option value="f">Aiello</ion-select-option>
-                          <ion-select-option value="m">Male</ion-select-option>
+                        <ion-select [(ngModel)]="titular.nroEmpresa"  [ngModelOptions]="{standalone: true}" placeholder="Seleccione una">
+                          <ion-select-option *ngFor="let empresa of listaEmpresas" value="{{empresa.nroEmpresa}}">{{empresa.razonSocial}}</ion-select-option>
+                          
                         </ion-select>
                       
                   </ion-item>

@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { WebcamImage } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { TitularService } from 'src/app/services/titular.service';
+import { UIServiceService } from 'src/app/services/uiservice.service';
 
-import { Titular, Familiar } from '../../interfaces/interfaces';
+import { Titular, Familiar, Empresa } from '../../interfaces/interfaces';
+import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
   selector: 'app-generar',
@@ -35,9 +38,15 @@ export class GenerarPage implements OnInit {
   public listaFamiliares:Familiar[]=[]
   public noHayTitular:boolean=true;
   public noHayFamiliar:boolean=false;
-  constructor() { }
+  constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, private EmpresaSrv:EmpresaService) { }
 
+  listaEmpresas:Empresa[]=[];
   ngOnInit() {
+    this.EmpresaSrv.empresasAll().subscribe((resp:any)=>{
+
+      this.listaEmpresas=resp;
+      console.log(this.listaEmpresas);
+    });
   }
  
   
@@ -69,6 +78,15 @@ export class GenerarPage implements OnInit {
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
     
     this.lista.push(this.titular);
+    this.titularSrv.crearTitular(this.titular).subscribe(resp=>{
+      if(resp){
+
+         this.uiSrv.presentToast("Titular Guardado");
+      }
+    },(err)=>{
+      this.uiSrv.presentToast("No se pudo agregar titular");
+    })
+
     //Blanqueo Titular
     this.titular={
       nroAfiliado:0,
