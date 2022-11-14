@@ -8,6 +8,7 @@ export interface Titular{
     fechaNacimiento: Date,
     foto:string,
     fotoMostrar?:string,
+    estado:boolean
 
   }
 
@@ -19,14 +20,16 @@ export interface Titular{
     parentesco:string,
     nroAfiliado:number,
     foto:string,
-    fotoMostrar?:string
+    fotoMostrar?:string,
+    estado:boolean
     
   }
 
   export interface Empresa{
 
     nroEmpresa:number,
-    razonSocial:string
+    razonSocial:string,
+    estado:boolean
 
   }
 

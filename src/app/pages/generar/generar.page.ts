@@ -7,6 +7,7 @@ import { UIServiceService } from 'src/app/services/uiservice.service';
 
 import { Titular, Familiar, Empresa } from '../../interfaces/interfaces';
 import { EmpresaService } from '../../services/empresa.service';
+import { FamiliarService } from '../../services/familiar.service';
 
 @Component({
   selector: 'app-generar',
@@ -22,7 +23,8 @@ export class GenerarPage implements OnInit {
     apellido:"",
     nombre:"",
     fechaNacimiento: null,
-    foto:""  };
+    foto:"",
+    estado:true  };
 
   familiar:Familiar={
     dni:0,
@@ -31,14 +33,18 @@ export class GenerarPage implements OnInit {
     fechaNacimiento:null,
     parentesco:"",
     nroAfiliado:0,
-    foto:""
+    foto:"",
+    estado:true
 
   };
   public lista:Titular[]=[];
   public listaFamiliares:Familiar[]=[]
   public noHayTitular:boolean=true;
   public noHayFamiliar:boolean=false;
-  constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, private EmpresaSrv:EmpresaService) { }
+  public fondo:string="custom-bg";
+
+  constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, 
+    private EmpresaSrv:EmpresaService, private familiarSrv:FamiliarService) { }
 
   listaEmpresas:Empresa[]=[];
   ngOnInit() {
@@ -77,7 +83,7 @@ export class GenerarPage implements OnInit {
     this.titular.foto=this.webcamImage.imageAsBase64;
     this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
-    
+    this.titular.estado=true;
     this.lista.push(this.titular);
     this.titularSrv.crearTitular(this.titular).subscribe(resp=>{
       if(resp){
@@ -86,34 +92,40 @@ export class GenerarPage implements OnInit {
       }
     },(err)=>{
       this.uiSrv.presentToast("No se pudo agregar titular");
-    })
+    });
 
     //Blanqueo Titular
-    this.titular={
-      nroAfiliado:0,
-      dni:0,
-      nroEmpresa:0,
-      apellido:"",
-      nombre:"",
-      fechaNacimiento: null,
-      foto:""  };
+    
 
 
       this.webcamImage=null;
       this.noHayTitular=false;
       this.noHayFamiliar=true;
+      this.fondo="custom-bg-familiar";
 
   }
 
   guardarFamiliar(formulario:NgForm){
+    console.log("Guardando familiar");
+    
     if(formulario.invalid || !this.webcamImage){
       return;
     }
-    this.familiar.foto=this.webcamImage.imageAsDataUrl;
+    this.familiar.foto=this.webcamImage.imageAsBase64;
+    this.familiar.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.listaFamiliares.push(this.familiar);
+
+    this.familiarSrv.crearFamiliar(this.familiar).subscribe(resp=>{
+      if(resp){
+        this.uiSrv.alertaInformativa("Familiar Guardado");
+      }else {
+        this.uiSrv.alertaInformativa("No se pudo guardar familiar");
+      }
+    });
+
     console.log(this.familiar);
     
-
+//Blanqueo Familiar
 this.familiar={
     dni:0,
     apellido:"",
@@ -121,9 +133,44 @@ this.familiar={
     fechaNacimiento:null,
     parentesco:"",
     nroAfiliado:this.titular.nroAfiliado,
-    foto:""
+    foto:"",
+    fotoMostrar:"",
+    estado:true
 
   };
   this.webcamImage=null;
   }
+
+  limpiarCampos(){
+    this.titular={
+      nroAfiliado:0,
+      dni:0,
+      nroEmpresa:0,
+      apellido:"",
+      nombre:"",
+      fechaNacimiento: null,
+      foto:"",
+      fotoMostrar:"",
+      estado:true  };
+ 
+
+  this.familiar={
+    dni:0,
+    apellido:"",
+    nombre:"",
+    fechaNacimiento:null,
+    parentesco:"",
+    nroAfiliado:this.titular.nroAfiliado,
+    foto:"",
+    fotoMostrar:"",
+    estado:true
+
+  };
+
+  this.lista=[];
+  this.listaFamiliares=[]
+  this.noHayTitular=true;
+  this.noHayFamiliar=false;
+  this.fondo="custom-bg";
+}
 }

@@ -2,7 +2,7 @@
 
 <ion-content class="ion-padding">
   <ion-grid fixed>
-    <ion-row class="custom-bg">
+    <ion-row [class]="fondo">
       <ion-col size="4">
         <div>
           <webcam [height]="300" 
@@ -114,7 +114,7 @@
     <form (ngSubmit)="guardarFamiliar(familiarForm)" #familiarForm="ngForm"  *ngIf="noHayFamiliar">
         
                 
-      <ion-row class="custom-bg">
+      <ion-row class="custom-bg-familiar">
         <ion-col>
           
             <ion-list>
@@ -203,7 +203,15 @@
   </form>
       </ion-col>
     </ion-row>
-   
+   <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="limpiarCampos()"
+      color="tertiary"
+      shape="round">
+Nuevo Titular
+</ion-button>
+    </ion-col>
+   </ion-row>
   </ion-grid>
   <ion-grid fixed>
     <ion-row class="custom-bg-cards">

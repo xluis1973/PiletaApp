@@ -13,7 +13,8 @@ export class EmpresaPage implements OnInit {
 
   empresa:Empresa={
     nroEmpresa:0,
-    razonSocial:""
+    razonSocial:"",
+    estado:true
   }
   constructor(private empresaSrv:EmpresaService, private uiSrv:UIServiceService) { }
 
