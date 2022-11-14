@@ -6,7 +6,8 @@ export interface Titular{
     apellido:string,
     nombre:string,
     fechaNacimiento: Date,
-    foto:string
+    foto:string,
+    fotoMostrar?:string,
 
   }
 
@@ -18,6 +19,7 @@ export interface Titular{
     parentesco:string,
     nroAfiliado:number,
     foto:string,
+    fotoMostrar?:string
     
   }
 

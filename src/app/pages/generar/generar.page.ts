@@ -75,6 +75,7 @@ export class GenerarPage implements OnInit {
     console.log("Valido");
     //Tengo los datos de un titular.
     this.titular.foto=this.webcamImage.imageAsBase64;
+    this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
     
     this.lista.push(this.titular);

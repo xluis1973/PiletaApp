@@ -209,7 +209,7 @@
     <ion-row class="custom-bg-cards">
       <ion-col size="4">
         <ion-card *ngFor ="let titular of lista">
-          <img [src]="titular.foto" />
+          <img [src]="titular.fotoMostrar" />
           <ion-card-header>
             <ion-card-subtitle>{{titular.apellido}}, {{titular.nombre}}</ion-card-subtitle>
             <ion-card-title>{{titular.nroAfiliado}} (Titular)</ion-card-title>
@@ -226,7 +226,7 @@
     <ion-row class="custom-bg-cards">
       <ion-col size="4">
         <ion-card *ngFor ="let familiar of listaFamiliares">
-          <img [src]="familiar.foto" />
+          <img [src]="familiar.fotoMostrar" />
           <ion-card-header>
             <ion-card-subtitle>{{familiar.apellido}}, {{familiar.nombre}}</ion-card-subtitle>
             <ion-card-title>{{familiar.nroAfiliado}} ({{familiar.parentesco}})</ion-card-title>
