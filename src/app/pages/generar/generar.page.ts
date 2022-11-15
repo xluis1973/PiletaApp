@@ -173,4 +173,12 @@ this.familiar={
   this.noHayFamiliar=false;
   this.fondo="custom-bg";
 }
+
+buscarAfiliado(){
+  console.log("Nro de afiliado ",this.titular.nroAfiliado);
+  this.titularSrv.buscarAfiliadoPorNro(this.titular.nroAfiliado).subscribe(resp=>{
+
+    console.log("Por nro",resp);
+  });
+}
 }

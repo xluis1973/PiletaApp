@@ -32,6 +32,7 @@
                   <ion-label>Nro de Afiliado</ion-label>
                   <ion-input name="nroAfiliado"
                             required
+                            (ionBlur)="buscarAfiliado()"                            
                             type="number"
                             [(ngModel)]="titular.nroAfiliado"
                              ></ion-input>
