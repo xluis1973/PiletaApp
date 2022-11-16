@@ -105,7 +105,7 @@
             <ion-button type="submit"
                         color="tertiary"
                         shape="round">
-            Registrar Titular
+            {{textoTitular}}
           </ion-button>
         </ion-col>
       </ion-row>
@@ -214,9 +214,10 @@ Nuevo Titular
     </ion-col>
    </ion-row>
   </ion-grid>
+
   <ion-grid fixed>
     <ion-row class="custom-bg-cards">
-      <ion-col size="4">
+      <ion-col size-xs="12" size-md="6">
         <ion-card *ngFor ="let titular of lista">
           <img [src]="titular.fotoMostrar" />
           <ion-card-header>
@@ -227,13 +228,13 @@ Nuevo Titular
           <ion-card-content>
             <p>Dni: {{titular.dni}}</p>
             <p>Fecha de Nacimiento: {{titular.fechaNacimiento}}</p>
-            <p>Empresa: {{titular.nroEmpresa}}</p>
+            <p>Empresa: {{titular.empresa.razonSocial}}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
-    <ion-row class="custom-bg-cards">
-      <ion-col size="4">
+   
+   
+      <ion-col size-xs="12" size-md="6">
         <ion-card *ngFor ="let familiar of listaFamiliares">
           <img [src]="familiar.fotoMostrar" />
           <ion-card-header>

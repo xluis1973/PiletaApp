@@ -24,4 +24,20 @@ export class FamiliarService {
     return this.http.post('http://localhost:3000/api/familiares/create',familiar,{headers});
     
   }
+
+  buscarFamiliaresPorNro(nro:number){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token,
+      
+    });
+ 
+ 
+    
+
+
+    return this.http.get('http://localhost:3000/api/familiares/porAfiliado?nroAfiliado='+nro,{headers:headers});
+  }
 }

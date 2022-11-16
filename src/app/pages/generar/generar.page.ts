@@ -42,6 +42,7 @@ export class GenerarPage implements OnInit {
   public noHayTitular:boolean=true;
   public noHayFamiliar:boolean=false;
   public fondo:string="custom-bg";
+  public textoTitular:string="Registar Titular";
 
   constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, 
     private EmpresaSrv:EmpresaService, private familiarSrv:FamiliarService) { }
@@ -51,8 +52,9 @@ export class GenerarPage implements OnInit {
     this.EmpresaSrv.empresasAll().subscribe((resp:any)=>{
 
       this.listaEmpresas=resp;
-      console.log(this.listaEmpresas);
+      console.log("listado",this.listaEmpresas);
     });
+  this.limpiarCampos();
   }
  
   
@@ -78,12 +80,19 @@ export class GenerarPage implements OnInit {
    if(formulario.invalid || !this.webcamImage){
       return;
     }
-    console.log("Valido");
+    console.log("Valido ",formulario);
+    if(this.textoTitular=="Registar Titular"){
     //Tengo los datos de un titular.
     this.titular.foto=this.webcamImage.imageAsBase64;
     this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
+    
     this.titular.estado=true;
+    this.titular.empresa=this.listaEmpresas.find(cod=>{
+      console.log("Buscando empresa ",this.titular.nroEmpresa);
+      if(cod.nroEmpresa==this.titular.nroEmpresa){return cod;}else {return null;}
+    });
+    console.log("Encontrado ",this.titular.empresa);
     this.lista.push(this.titular);
     this.titularSrv.crearTitular(this.titular).subscribe(resp=>{
       if(resp){
@@ -103,6 +112,32 @@ export class GenerarPage implements OnInit {
       this.noHayFamiliar=true;
       this.fondo="custom-bg-familiar";
 
+  }else {
+
+    this.titular.foto=this.webcamImage.imageAsBase64;
+    this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
+    this.familiar.nroAfiliado=this.titular.nroAfiliado;
+    
+    this.titular.estado=true;
+    this.titular.empresa=this.listaEmpresas.find(cod=>{
+      console.log("Buscando empresa ",this.titular.nroEmpresa);
+      if(cod.nroEmpresa==this.titular.nroEmpresa){return cod;}else {return null;}
+    });
+    console.log("Encontrado ",this.titular.empresa);
+    this.lista=[];
+    this.lista.push(this.titular);
+
+    //Proceso de modificar titular.
+
+    this.titularSrv.actualizarTitular(this.titular).subscribe(resp=>{
+      if(resp){
+
+         this.uiSrv.presentToast("Titular Actualizado");
+      }
+    },(err)=>{
+      this.uiSrv.presentToast("No se pudo Actualizar titular");
+    });
+  }
   }
 
   guardarFamiliar(formulario:NgForm){
@@ -111,6 +146,7 @@ export class GenerarPage implements OnInit {
     if(formulario.invalid || !this.webcamImage){
       return;
     }
+    if(this.textoTitular=="Registrar Familiar"){
     this.familiar.foto=this.webcamImage.imageAsBase64;
     this.familiar.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.listaFamiliares.push(this.familiar);
@@ -139,6 +175,7 @@ this.familiar={
 
   };
   this.webcamImage=null;
+}
   }
 
   limpiarCampos(){
@@ -172,13 +209,35 @@ this.familiar={
   this.noHayTitular=true;
   this.noHayFamiliar=false;
   this.fondo="custom-bg";
+  this.textoTitular="Registar Titular";
 }
 
 buscarAfiliado(){
   console.log("Nro de afiliado ",this.titular.nroAfiliado);
-  this.titularSrv.buscarAfiliadoPorNro(this.titular.nroAfiliado).subscribe(resp=>{
+  try{
+  this.titularSrv.buscarAfiliadoPorNro(this.titular.nroAfiliado).subscribe((resp:Titular)=>{
 
     console.log("Por nro",resp);
+    resp.fotoMostrar="http://localhost:3000/"+resp.foto;
+    resp.empresa=this.listaEmpresas.find(cod=>{
+      if(cod.nroEmpresa==resp.nroEmpresa){return cod;}else {return null;}
+    });
+    this.titular=resp;
+    this.lista.push(this.titular);
+    this.textoTitular="Modificar Titular";
+  });
+}catch(error){
+    console.log("sigo");
+    
+  };
+  this.familiarSrv.buscarFamiliaresPorNro(this.titular.nroAfiliado).subscribe((resp:Familiar[])=>{
+
+    resp.forEach(familia=>{
+
+      familia.fotoMostrar="http://localhost:3000/"+familia.foto;
+      this.listaFamiliares.push(familia);
+    });
+
   });
 }
 }

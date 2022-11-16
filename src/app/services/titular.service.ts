@@ -40,4 +40,16 @@ export class TitularService {
 
     return this.http.get('http://localhost:3000/api/titulares/porNro?nroAfiliado='+nro,{headers:headers});
   }
+
+  actualizarTitular(titular:Titular){
+
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token
+    });
+
+    return this.http.put('http://localhost:3000/api/titulares/update',titular,{headers});
+  }
 }

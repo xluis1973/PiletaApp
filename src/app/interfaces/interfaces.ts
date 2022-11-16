@@ -8,7 +8,8 @@ export interface Titular{
     fechaNacimiento: Date,
     foto:string,
     fotoMostrar?:string,
-    estado:boolean
+    estado:boolean,
+    empresa?:Empresa
 
   }
 
