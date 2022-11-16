@@ -195,7 +195,7 @@
           <ion-button type="submit"
                       color="tertiary"
                       shape="round">
-          Registrar Familiar
+                      {{textoFamiliar}}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -210,6 +210,15 @@
       color="tertiary"
       shape="round">
 Nuevo Titular
+</ion-button>
+    </ion-col>
+   </ion-row>
+   <ion-row *ngIf="encontroAfiliado">
+    <ion-col>
+      <ion-button expand="block" (click)="nuevoFamiliar()"
+      color="tertiary"
+      shape="round">
+Nuevo Familiar
 </ion-button>
     </ion-col>
    </ion-row>
@@ -235,7 +244,7 @@ Nuevo Titular
    
    
       <ion-col size-xs="12" size-md="6">
-        <ion-card *ngFor ="let familiar of listaFamiliares">
+        <ion-card *ngFor ="let familiar of listaFamiliares ; let indice=index" button="true" (click)="familiarElegido(indice)">
           <img [src]="familiar.fotoMostrar" />
           <ion-card-header>
             <ion-card-subtitle>{{familiar.apellido}}, {{familiar.nombre}}</ion-card-subtitle>

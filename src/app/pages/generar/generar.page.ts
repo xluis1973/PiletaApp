@@ -43,6 +43,8 @@ export class GenerarPage implements OnInit {
   public noHayFamiliar:boolean=false;
   public fondo:string="custom-bg";
   public textoTitular:string="Registar Titular";
+  public textoFamiliar:string="Registrar Familiar";
+  public encontroAfiliado:boolean=false;
 
   constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, 
     private EmpresaSrv:EmpresaService, private familiarSrv:FamiliarService) { }
@@ -146,7 +148,7 @@ export class GenerarPage implements OnInit {
     if(formulario.invalid || !this.webcamImage){
       return;
     }
-    if(this.textoTitular=="Registrar Familiar"){
+    if(this.textoFamiliar=="Registrar Familiar"){
     this.familiar.foto=this.webcamImage.imageAsBase64;
     this.familiar.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.listaFamiliares.push(this.familiar);
@@ -175,10 +177,42 @@ this.familiar={
 
   };
   this.webcamImage=null;
+}else{
+
+  this.familiar.foto=this.webcamImage.imageAsBase64;
+  this.familiar.fotoMostrar=this.webcamImage.imageAsDataUrl;
+  this.listaFamiliares.push(this.familiar);
+
+  this.familiarSrv.actualizarFamiliar(this.familiar).subscribe(resp=>{
+    if(resp){
+      this.uiSrv.alertaInformativa("Familiar Actualizado");
+    }else {
+      this.uiSrv.alertaInformativa("No se pudo actualizar familiar");
+    }
+  });
+
+  console.log(this.familiar);
+  
+//Blanqueo Familiar
+this.familiar={
+  dni:0,
+  apellido:"",
+  nombre:"",
+  fechaNacimiento:null,
+  parentesco:"",
+  nroAfiliado:this.titular.nroAfiliado,
+  foto:"",
+  fotoMostrar:"",
+  estado:true
+
+};
+this.webcamImage=null;
+
 }
   }
 
   limpiarCampos(){
+    this.encontroAfiliado=false;
     this.titular={
       nroAfiliado:0,
       dni:0,
@@ -210,12 +244,15 @@ this.familiar={
   this.noHayFamiliar=false;
   this.fondo="custom-bg";
   this.textoTitular="Registar Titular";
+  this.textoFamiliar="Registrar Familiar";
+
 }
 
 buscarAfiliado(){
   console.log("Nro de afiliado ",this.titular.nroAfiliado);
   try{
   this.titularSrv.buscarAfiliadoPorNro(this.titular.nroAfiliado).subscribe((resp:Titular)=>{
+
 
     console.log("Por nro",resp);
     resp.fotoMostrar="http://localhost:3000/"+resp.foto;
@@ -225,6 +262,7 @@ buscarAfiliado(){
     this.titular=resp;
     this.lista.push(this.titular);
     this.textoTitular="Modificar Titular";
+    this.encontroAfiliado=true;
   });
 }catch(error){
     console.log("sigo");
@@ -239,5 +277,29 @@ buscarAfiliado(){
     });
 
   });
+}
+
+nuevoFamiliar(){
+  this.familiar.nroAfiliado=this.titular.nroAfiliado;
+  this.webcamImage=null;
+      this.noHayTitular=false;
+      this.noHayFamiliar=true;
+      this.fondo="custom-bg-familiar";
+
+
+}
+
+familiarElegido(indice:number){
+
+  this.familiar=this.listaFamiliares[indice];
+  this.listaFamiliares=this.listaFamiliares.filter(elem=>elem.dni!=this.familiar.dni);
+  console.log("familiar elegido "+this.familiar.nombre);
+  console.log("indice ",indice);
+  this.textoFamiliar="Modificar Titular"
+  this.webcamImage=null;
+      this.noHayTitular=false;
+      this.noHayFamiliar=true;
+      this.fondo="custom-bg-familiar";
+
 }
 }

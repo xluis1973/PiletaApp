@@ -40,4 +40,16 @@ export class FamiliarService {
 
     return this.http.get('http://localhost:3000/api/familiares/porAfiliado?nroAfiliado='+nro,{headers:headers});
   }
+
+  actualizarFamiliar(familiar:Familiar){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token
+    });
+
+    return this.http.put('http://localhost:3000/api/familiares/update',familiar,{headers});
+    
+  }
 }
