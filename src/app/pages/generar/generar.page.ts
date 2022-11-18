@@ -8,7 +8,8 @@ import { UIServiceService } from 'src/app/services/uiservice.service';
 import { Titular, Familiar, Empresa } from '../../interfaces/interfaces';
 import { EmpresaService } from '../../services/empresa.service';
 import { FamiliarService } from '../../services/familiar.service';
-
+import { environment } from '../../../environments/environment.prod';
+const URL=environment.url;
 @Component({
   selector: 'app-generar',
   templateUrl: './generar.page.html',
@@ -255,7 +256,7 @@ buscarAfiliado(){
 
 
     console.log("Por nro",resp);
-    resp.fotoMostrar="http://localhost:3000/"+resp.foto;
+    resp.fotoMostrar=`${URL}/`+resp.foto;
     resp.empresa=this.listaEmpresas.find(cod=>{
       if(cod.nroEmpresa==resp.nroEmpresa){return cod;}else {return null;}
     });
@@ -272,7 +273,7 @@ buscarAfiliado(){
 
     resp.forEach(familia=>{
 
-      familia.fotoMostrar="http://localhost:3000/"+familia.foto;
+      familia.fotoMostrar=`${URL}/`+familia.foto;
       this.listaFamiliares.push(familia);
     });
 

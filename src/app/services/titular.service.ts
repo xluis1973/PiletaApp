@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioService } from './usuario.service';
 import { Titular } from '../interfaces/interfaces';
-
+import { environment } from '../../environments/environment.prod';
+const URL=environment.url;
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +22,7 @@ export class TitularService {
       'x-token':this.usuarioSrv.token
     });
 
-    return this.http.post('http://localhost:3000/api/titulares/create',titular,{headers});
+    return this.http.post(`${URL}/api/titulares/create`,titular,{headers});
     
   }
 
@@ -38,7 +39,7 @@ export class TitularService {
     
 
 
-    return this.http.get('http://localhost:3000/api/titulares/porNro?nroAfiliado='+nro,{headers:headers});
+    return this.http.get(`${URL}/api/titulares/porNro?nroAfiliado=`+nro,{headers:headers});
   }
 
   actualizarTitular(titular:Titular){
@@ -50,6 +51,6 @@ export class TitularService {
       'x-token':this.usuarioSrv.token
     });
 
-    return this.http.put('http://localhost:3000/api/titulares/update',titular,{headers});
+    return this.http.put(`${URL}/api/titulares/update`,titular,{headers});
   }
 }

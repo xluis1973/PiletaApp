@@ -22,7 +22,8 @@ export interface Titular{
     nroAfiliado:number,
     foto:string,
     fotoMostrar?:string,
-    estado:boolean
+    estado:boolean,
+    fotoCarnet?:any
     
   }
 

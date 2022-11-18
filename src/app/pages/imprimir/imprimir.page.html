@@ -1,4 +1,57 @@
 <app-header nombre="Imprimir Carnets" ></app-header>
 <ion-content>
+    <ion-grid fixed>
+        <ion-row>
+        <ion-col >
 
+            <form (ngSubmit)="empezar(formulario)" #formulario="ngForm"  >
+            
+                    
+            <ion-row class="custom-bg">
+              <ion-col>
+                
+                  <ion-list>
+                    
+                    <ion-item >
+                      <ion-label>Nro de Afiliado</ion-label>
+                      <ion-input name="nro"
+                                required
+                                                      
+                                type="number"
+                                [(ngModel)]="nroAfiliado"
+                                 ></ion-input>
+                    </ion-item>
+      
+                    
+                  </ion-list>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="ion-text-center">
+                  <ion-button type="submit"
+                              color="tertiary"
+                              shape="round"
+                              >
+                  Buscar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+        </form>
+        </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-tab-button (click)="imprimirTitular()" [disabled]="activarBoton">
+                    <ion-icon name="print-outline"></ion-icon>
+                    <ion-label>Imprimir Titular</ion-label>
+                </ion-tab-button>
+                <ion-tab-button (click)="imprimirFamiliar()" [disabled]="activarBoton">
+                    <ion-icon name="print-outline"></ion-icon>
+                    <ion-label>Imprimir Familiares</ion-label>
+                </ion-tab-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    
 </ion-content>

@@ -16,6 +16,18 @@ export class MenuPage implements OnInit {
     this.usuarioSrv.getUsuario().then(resp=>{
       this.usuario=resp;
     });
+    const constraints = {
+      audio: true,
+      video: {
+        width: 1280, height: 720
+      }
+    };
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      
+    } catch (e) {
+      
+    }
     
   }
 

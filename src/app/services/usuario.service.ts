@@ -3,6 +3,10 @@ import {Storage} from '@ionic/storage-angular';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Usuario } from '../interfaces/interfaces';
 import { NavController } from '@ionic/angular';
+import { environment } from '../../environments/environment.prod';
+
+const URL:string=environment.url;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +42,7 @@ export class UsuarioService {
  return new Promise(resolve=>{
 
   this._storage?.clear();
-   this.http.post('http://localhost:3000/api/usuarios/login',body,{'responseType':'json'})
+   this.http.post(`${URL}/api/usuarios/login`,body,{'responseType':'json'})
  
     .subscribe( 
      resp=>{
@@ -106,7 +110,7 @@ return new Promise(resolve=>{
 console.log("token recuperado ",this.token);
 console.log('token header ',headers.get('x-token'));
 
-this.http.get('http://localhost:3000/api/usuarios/find',{headers})
+this.http.get(`${URL}/api/usuarios/find`,{headers})
 .subscribe(resp=>{
 
    resolve(true);
@@ -154,7 +158,7 @@ const headers=new HttpHeaders({
 
 console.log(headers.get('x-token'));
 
-this.http.post('http://localhost:3000/api/usuarios',usuario,{headers})
+this.http.post(`${URL}api/usuarios`,usuario,{headers})
 .subscribe(resp=>{
 
    resolve(true);

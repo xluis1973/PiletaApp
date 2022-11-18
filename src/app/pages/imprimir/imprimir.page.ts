@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { TitularService } from '../../services/titular.service';
-import { Titular, Empresa } from '../../interfaces/interfaces';
+import { Titular, Empresa, Familiar } from '../../interfaces/interfaces';
 import { FamiliarService } from '../../services/familiar.service';
 import { EmpresaService } from '../../services/empresa.service';
+import { NgForm } from '@angular/forms';
+import { environment } from '../../../environments/environment.prod';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const URL=environment.url;
 @Component({
   selector: 'app-imprimir',
   templateUrl: './imprimir.page.html',
@@ -17,7 +20,10 @@ export class ImprimirPage implements OnInit {
   pdfOject:any;
   private titular:Titular;
   private listaEmpresas:Empresa[]=[];
-
+  private familiares:Familiar[]=[];
+  activarBoton=true;
+  contador=0;
+  nroAfiliado:number;
   constructor(private titularSrv:TitularService,private familiarSrv:FamiliarService,private empresaSrv:EmpresaService) { }
 
   ngOnInit() {
@@ -25,8 +31,10 @@ export class ImprimirPage implements OnInit {
 
       this.listaEmpresas=resp;
     });
-   this.traerTitular(7231);
+   //this.traerTitular(7231);
+   
   }
+
 
   traerTitular(nro:number){
 
@@ -39,7 +47,7 @@ export class ImprimirPage implements OnInit {
             console.log("Buscando empresa ",this.titular.nroEmpresa);
             if(cod.nroEmpresa==this.titular.nroEmpresa){return cod;}else {return null;}
           });
-          this.generarPDF();
+          
         }
       });
     }catch(error){
@@ -49,57 +57,39 @@ export class ImprimirPage implements OnInit {
     
 
   }
-  async generarPDF(){
-    var dd = {
-      content: [
-          {
-              style: 'tableExample',
-              color: '#555',
-              table: {
-                  body: [
-                      [
-                          {
-                               text : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a pharetra odio.\n\nVestibulum erat mauris, sodales et consequat sit amet, ultricies vitae erat. Etiam feugiat orci justo, ultrices malesuada dui ornare ac.'
-                          } 
-                      ],
-                      [
-                          {
-                               text : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a pharetra odio.\n\nVestibulum erat mauris, sodales et consequat sit amet, ultricies vitae erat. Etiam feugiat orci justo, ultrices malesuada dui ornare ac.'
-                          } 
-                      ],
-                      [
-                          {
-                               text : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a pharetra odio.\n\nVestibulum erat mauris, sodales et consequat sit amet, ultricies vitae erat. Etiam feugiat orci justo, ultrices malesuada dui ornare ac.'
-                          } 
-                      ],
-                  ]
-              },
-              layout: {
-                  //hLineWidth: function(i, node) {
-                  //  return (i === 0 || i === node.table.body.length) ? 2 : 1;
-                  //},
-                  //vLineWidth: function(i, node) {
-                  //  return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-                  //},
-                  hLineColor: function(i, node) {
-                      return (i === 0 || i === node.table.body.length) ? 'red' : 'blue';
-                  },
-                  vLineColor: function(i, node) {
-                      return (i === 0 || i === node.table.widths.length) ? 'red' : 'blue';
-                  },
-                  paddingLeft: function(i, node) { return 40; },
-                  paddingRight: function(i, node) { return 40; },
-                  paddingTop: function(i, node) { return 20; },
-                  paddingBottom: function(i, node) { return 20; }
-              }
-          }
-      ],
-  
-      defaultStyle: {
-          alignment: 'justify'
+
+  traerFamiliares(nro:number){
+
+    try{
+    this.familiarSrv.buscarFamiliaresPorNro(nro).subscribe((resp:Familiar[])=>{
+      if(resp){
+        this.familiares=resp;
+         this.familiares.forEach( (element:Familiar) => {
+           this.getBase64ImageFromURL(`${URL}`+element.foto).then(resp=>{
+
+             this.contador++;
+             element.fotoCarnet=resp;
+             console.log("contadores ",this.contador+" "+this.familiares.length)
+             if(this.contador==this.familiares.length){
+              this.activarBoton=false;
+             }
+            
+           });
+        });
+        
       }
-  
-  };
+
+
+    });
+  }catch(error){
+
+    console.log("No tiene familiares",error);
+  }
+
+
+  }
+  async generarPDF(){
+   
 
     var tabla={
       content:[
@@ -126,7 +116,7 @@ export class ImprimirPage implements OnInit {
               [
                 {
                   // you can also fit the image inside a rectangle
-                  image: await this.getBase64ImageFromURL("http://localhost:3000"+this.titular.foto),
+                  image: await this.getBase64ImageFromURL(`${URL}`+this.titular.foto),
                   fit: [100, 100],
                   alignment: 'center'
                 },
@@ -163,12 +153,7 @@ export class ImprimirPage implements OnInit {
           },
           layout: {
             
-            //hLineWidth: function(i, node) {
-            //  return (i === 0 || i === node.table.body.length) ? 2 : 1;
-            //},
-            //vLineWidth: function(i, node) {
-            //  return (i === 0 || i === node.table.widths.length) ? 2 : 1;
-            //},
+            
             hLineColor: function(i, node) {
                 return (i === 0 || i === node.table.body.length) ? 'red' : 'white';
             },
@@ -184,6 +169,103 @@ export class ImprimirPage implements OnInit {
 
     this.pdfOject=pdfMake.createPdf(tabla);
     this.pdfOject.open();
+    
+
+
+  }
+
+   generarPDFFamiliares(){
+
+    var tablas:any[]=[];
+     this.familiares.forEach( familiar=>{
+      tablas.push({
+        margin: [-5,15,-5,-3],
+        table:{
+
+          widths: ['50%','25%','25%'],
+          
+          body:[
+            [
+              {text:'Sindicato Empleados de Comercio', fontSize:14, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
+              {},
+              {text:'Vencimiento', fontSize:14, alignment: 'center',bold : true, width:'*'}
+
+            ],
+            [
+              
+              {text:'Villa Deportiva 26 de Septiembre', fontSize:12, alignment: 'center',bold : true, width:'*'},
+              {},
+              {}
+
+            ],
+
+            [
+              {
+                // you can also fit the image inside a rectangle
+                image: familiar.fotoCarnet,
+                fit: [100, 100],
+                alignment: 'center'
+              },
+              {},
+              {}
+                    
+             
+            ],
+            [
+              {
+                text:familiar.apellido+", "+familiar.nombre,  fontSize:10
+              }
+              ,{},
+              {}
+            ],[
+              {text:"Nro de Afiliado: "+familiar.nroAfiliado , fontSize:10} ,
+              {},
+              {}
+            ],
+            [{
+              text:familiar.parentesco, fontSize:10
+            },
+            {
+              text: "Firma Autorizada", alignment: 'center',bold : true, fontSize:10
+            },
+            {
+              text: "Ctrl. Enfermería", alignment: 'center',bold : true, fontSize:10
+            }
+
+            ]
+          
+          ]
+          
+        },
+        layout: {
+          
+          
+          hLineColor: function(i, node) {
+              return (i === 0 || i === node.table.body.length) ? 'red' : 'white';
+          },
+          vLineColor: function(i, node) {
+              return (i === 0 || i === node.table.widths.length) ? 'red' : 'blue';
+          }
+      }
+      });
+
+    });
+    console.log("En formato json",JSON.stringify(tablas));
+    console.log("largo ",tablas.length);
+    
+    var tabla={
+      content:[
+        
+        tablas
+  ]
+  };
+    console.log("familires ",this.familiares);
+    console.log("tablas ",tablas);
+
+    this.pdfOject=pdfMake.createPdf(tabla);
+    this.pdfOject.open();
+    console.log("En formato json",JSON.stringify(this.familiares));
+    console.log("largo ",tablas.length);
     
 
 
@@ -208,4 +290,24 @@ export class ImprimirPage implements OnInit {
       img.src = url;
     });
   }
+
+ empezar(formulario:NgForm){
+
+  if(!formulario.valid){
+    return;
+  }
+
+  this.traerTitular(this.nroAfiliado);
+  this.traerFamiliares(this.nroAfiliado);
+
+ }
+ imprimirTitular(){
+
+ this.generarPDF();
+  }
+
+  imprimirFamiliar(){
+    this.generarPDFFamiliares();
+  }
+
 }

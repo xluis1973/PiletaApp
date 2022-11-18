@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Familiar } from '../interfaces/interfaces';
 import { UsuarioService } from './usuario.service';
-
+import { environment } from '../../environments/environment.prod';
+const URL=environment.url;
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +22,7 @@ export class FamiliarService {
       'x-token':this.usuarioSrv.token
     });
 
-    return this.http.post('http://localhost:3000/api/familiares/create',familiar,{headers});
+    return this.http.post(`${URL}/api/familiares/create`,familiar,{headers});
     
   }
 
@@ -38,7 +39,7 @@ export class FamiliarService {
     
 
 
-    return this.http.get('http://localhost:3000/api/familiares/porAfiliado?nroAfiliado='+nro,{headers:headers});
+    return this.http.get(`${URL}/api/familiares/porAfiliado?nroAfiliado=`+nro,{headers:headers});
   }
 
   actualizarFamiliar(familiar:Familiar){
@@ -49,7 +50,7 @@ export class FamiliarService {
       'x-token':this.usuarioSrv.token
     });
 
-    return this.http.put('http://localhost:3000/api/familiares/update',familiar,{headers});
+    return this.http.put(`${URL}/api/familiares/update`,familiar,{headers});
     
   }
 }

@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Empresa } from '../interfaces/interfaces';
 import { UsuarioService } from './usuario.service';
-
+import { environment } from '../../environments/environment.prod';
+const URL=environment.url;
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +23,7 @@ export class EmpresaService {
         'x-token':this.usuarioSrv.token
       });
       
-       return this.http.get('http://localhost:3000/api/empresas/all',{headers});
+       return this.http.get(`${URL}/api/empresas/all`,{headers});
      
        
 
@@ -36,7 +37,7 @@ export class EmpresaService {
       'x-token':this.usuarioSrv.token
     });
 
-    return this.http.post('http://localhost:3000/api/empresas/create',empresa,{headers});
+    return this.http.post(`${URL}/api/empresas/create`,empresa,{headers});
     
   }
 }
