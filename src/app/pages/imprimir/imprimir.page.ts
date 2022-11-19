@@ -7,6 +7,7 @@ import { FamiliarService } from '../../services/familiar.service';
 import { EmpresaService } from '../../services/empresa.service';
 import { NgForm } from '@angular/forms';
 import { environment } from '../../../environments/environment.prod';
+import { UIServiceService } from '../../services/uiservice.service';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const URL=environment.url;
@@ -21,10 +22,12 @@ export class ImprimirPage implements OnInit {
   private titular:Titular;
   private listaEmpresas:Empresa[]=[];
   private familiares:Familiar[]=[];
+  activarBotonTitular=true;
   activarBoton=true;
   contador=0;
-  nroAfiliado:number;
-  constructor(private titularSrv:TitularService,private familiarSrv:FamiliarService,private empresaSrv:EmpresaService) { }
+  nroAfiliado:number=0;
+  constructor(private titularSrv:TitularService,private familiarSrv:FamiliarService
+    ,private empresaSrv:EmpresaService, private uiS:UIServiceService) { }
 
   ngOnInit() {
     this.empresaSrv.empresasAll().subscribe((resp:Empresa[])=>{
@@ -41,14 +44,19 @@ export class ImprimirPage implements OnInit {
     try{
 
       this.titularSrv.buscarAfiliadoPorNro(nro).subscribe((resp:Titular)=>{
-        if(resp){
+        if(resp.nroAfiliado){
           this.titular=resp;
           this.titular.empresa=this.listaEmpresas.find(cod=>{
             console.log("Buscando empresa ",this.titular.nroEmpresa);
             if(cod.nroEmpresa==this.titular.nroEmpresa){return cod;}else {return null;}
           });
+          this.activarBotonTitular=false;
           
+        }else{
+          this.uiS.alertaInformativa("No Existe Titular con ese nro de afiliado");
         }
+      },error=>{
+        this.uiS.alertaInformativa("No Existe Titular con ese nro de afiliado");
       });
     }catch(error){
 
@@ -64,15 +72,21 @@ export class ImprimirPage implements OnInit {
     this.familiarSrv.buscarFamiliaresPorNro(nro).subscribe((resp:Familiar[])=>{
       if(resp){
         this.familiares=resp;
+        
          this.familiares.forEach( (element:Familiar) => {
            this.getBase64ImageFromURL(`${URL}`+element.foto).then(resp=>{
 
-             this.contador++;
-             element.fotoCarnet=resp;
-             console.log("contadores ",this.contador+" "+this.familiares.length)
-             if(this.contador==this.familiares.length){
-              this.activarBoton=false;
-             }
+            
+
+              this.contador++;
+              element.fotoCarnet=resp;
+              console.log("contadores ",this.contador+" "+this.familiares.length)
+              if(this.contador==this.familiares.length){
+               this.activarBoton=false;
+              }
+
+
+           
             
            });
         });
@@ -83,6 +97,8 @@ export class ImprimirPage implements OnInit {
     });
   }catch(error){
 
+    
+        this.uiS.alertaInformativa("No tiene familiares");
     console.log("No tiene familiares",error);
   }
 
@@ -310,4 +326,9 @@ export class ImprimirPage implements OnInit {
     this.generarPDFFamiliares();
   }
 
+  limpiar(){
+    this.activarBoton=true;
+    this.activarBotonTitular=true;
+    this.contador=0;
+  }
 }

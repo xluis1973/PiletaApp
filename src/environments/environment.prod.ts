@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
  
-  url:'https://192.168.100.130:3000'
+  url:'https://piletasec.com:3000'
 };

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Usuario } from '../interfaces/interfaces';
 import { NavController } from '@ionic/angular';
 import { environment } from '../../environments/environment.prod';
+import { UIServiceService } from './uiservice.service';
 
 const URL:string=environment.url;
 
@@ -16,7 +17,8 @@ export class UsuarioService {
    token:string=null;
   private usuario:Usuario={};
 
-  constructor(private http:HttpClient,private storage:Storage,private navCtrl:NavController) { 
+  constructor(private http:HttpClient,private storage:Storage,
+    private navCtrl:NavController) { 
     this.init();
   }
 
@@ -65,6 +67,7 @@ export class UsuarioService {
      this.token=null;
      this._storage?.clear();
      console.log(error);
+     
 
    });
   
