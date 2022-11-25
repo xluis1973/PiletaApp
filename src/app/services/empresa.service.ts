@@ -40,4 +40,29 @@ export class EmpresaService {
     return this.http.post(`${URL}/api/empresas/create`,empresa,{headers});
     
   }
+
+  empresasPorNro(nro:number){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token
+    });
+
+    return this.http.get(`${URL}/api/empresas/porNro?nroEmpresa=`+nro,{headers});
+    
+
+  }
+
+  actualizarEmpresa(empresa:Empresa){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token
+    });
+
+    console.log("Empresa Actualizada ",empresa);
+    return this.http.put(`${URL}/api/empresas/update`,empresa,{headers});
+  }
 }

@@ -25,7 +25,8 @@ export class GenerarPage implements OnInit {
     nombre:"",
     fechaNacimiento: null,
     foto:"",
-    estado:true  };
+    estado:true,
+    telefono:""  };
 
   familiar:Familiar={
     dni:0,
@@ -35,7 +36,8 @@ export class GenerarPage implements OnInit {
     parentesco:"",
     nroAfiliado:0,
     foto:"",
-    estado:true
+    estado:true,
+    telefono:this.titular.telefono
 
   };
   public lista:Titular[]=[];
@@ -81,6 +83,7 @@ export class GenerarPage implements OnInit {
   guardar(formulario:NgForm){
 
    if(formulario.invalid || !this.webcamImage){
+    this.uiSrv.alertaInformativa("Formulario incompleto. Puede Faltar la foto");
       return;
     }
     console.log("Valido ",formulario);
@@ -89,6 +92,7 @@ export class GenerarPage implements OnInit {
     this.titular.foto=this.webcamImage.imageAsBase64;
     this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
+    this.familiar.telefono=this.titular.telefono;
     
     this.titular.estado=true;
     this.titular.empresa=this.listaEmpresas.find(cod=>{
@@ -120,6 +124,7 @@ export class GenerarPage implements OnInit {
     this.titular.foto=this.webcamImage.imageAsBase64;
     this.titular.fotoMostrar=this.webcamImage.imageAsDataUrl;
     this.familiar.nroAfiliado=this.titular.nroAfiliado;
+    this.familiar.telefono=this.titular.telefono;
     
     this.titular.estado=true;
     this.titular.empresa=this.listaEmpresas.find(cod=>{
@@ -147,6 +152,7 @@ export class GenerarPage implements OnInit {
     console.log("Guardando familiar");
     
     if(formulario.invalid || !this.webcamImage){
+      this.uiSrv.alertaInformativa("Formulario incompleto. Puede Faltar la foto");
       return;
     }
     if(this.textoFamiliar=="Registrar Familiar"){
@@ -223,7 +229,8 @@ this.webcamImage=null;
       fechaNacimiento: null,
       foto:"",
       fotoMostrar:"",
-      estado:true  };
+      estado:true ,
+      telefono:"" };
  
 
   this.familiar={
@@ -235,7 +242,8 @@ this.webcamImage=null;
     nroAfiliado:this.titular.nroAfiliado,
     foto:"",
     fotoMostrar:"",
-    estado:true
+    estado:true,
+    telefono:this.titular.telefono
 
   };
 
@@ -282,6 +290,7 @@ buscarAfiliado(){
 
 nuevoFamiliar(){
   this.familiar.nroAfiliado=this.titular.nroAfiliado;
+  this.familiar.telefono=this.titular.telefono;
   this.webcamImage=null;
       this.noHayTitular=false;
       this.noHayFamiliar=true;
@@ -302,5 +311,17 @@ familiarElegido(indice:number){
       this.noHayFamiliar=true;
       this.fondo="custom-bg-familiar";
 
+}
+buscarEmpresa(){
+  console.log("Buscando empresa ",this.titular.nroEmpresa);
+  const empresa=this.listaEmpresas.find((emp:Empresa)=>{
+    if(emp.nroEmpresa == this.titular.nroEmpresa){
+      return emp;
+    }
+  });
+  console.log("Buscando empresa ",this.titular.empresa);
+  if(empresa){
+    this.titular.empresa=empresa;
+  }
 }
 }

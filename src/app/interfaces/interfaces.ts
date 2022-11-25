@@ -9,7 +9,8 @@ export interface Titular{
     foto:string,
     fotoMostrar?:string,
     estado:boolean,
-    empresa?:Empresa
+    empresa?:Empresa,
+    telefono?:string
 
   }
 
@@ -23,7 +24,8 @@ export interface Titular{
     foto:string,
     fotoMostrar?:string,
     estado:boolean,
-    fotoCarnet?:any
+    fotoCarnet?:any,
+    telefono?:string
     
   }
 

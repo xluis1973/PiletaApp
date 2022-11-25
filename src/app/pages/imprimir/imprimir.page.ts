@@ -116,14 +116,14 @@ export class ImprimirPage implements OnInit {
             
             body:[
               [
-                {text:'Sindicato Empleados de Comercio', fontSize:14, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
+                {text:'Sindicato Empleados de Comercio', fontSize:12, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
                 {},
                 {text:'Vencimiento', fontSize:14, alignment: 'center',bold : true, width:'*'}
 
               ],
               [
                 
-                {text:'Villa Deportiva 26 de Septiembre', fontSize:12, alignment: 'center',bold : true, width:'*'},
+                {text:'Villa Deportiva 26 de Septiembre 2022-2023', fontSize:10, alignment: 'center',bold : true, width:'*'},
                 {},
                 {}
 
@@ -143,7 +143,7 @@ export class ImprimirPage implements OnInit {
               ],
               [
                 {
-                  text:this.titular.apellido+", "+this.titular.nombre,  fontSize:10
+                  text:this.titular.apellido+", "+this.titular.nombre+" Tel: "+this.titular.telefono,  fontSize:10
                 }
                 ,{},
                 {}
@@ -202,14 +202,14 @@ export class ImprimirPage implements OnInit {
           
           body:[
             [
-              {text:'Sindicato Empleados de Comercio', fontSize:14, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
+              {text:'Sindicato Empleados de Comercio', fontSize:12, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
               {},
               {text:'Vencimiento', fontSize:14, alignment: 'center',bold : true, width:'*'}
 
             ],
             [
               
-              {text:'Villa Deportiva 26 de Septiembre', fontSize:12, alignment: 'center',bold : true, width:'*'},
+              {text:'Villa Deportiva 26 de Septiembre 2022-2023', fontSize:10, alignment: 'center',bold : true, width:'*'},
               {},
               {}
 
@@ -229,7 +229,7 @@ export class ImprimirPage implements OnInit {
             ],
             [
               {
-                text:familiar.apellido+", "+familiar.nombre,  fontSize:10
+                text:familiar.apellido+", "+familiar.nombre+" Tel. "+familiar.telefono,  fontSize:10
               }
               ,{},
               {}

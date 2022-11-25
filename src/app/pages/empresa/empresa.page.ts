@@ -16,6 +16,7 @@ export class EmpresaPage implements OnInit {
     razonSocial:"",
     estado:true
   }
+  modificarEmpresa=false;
   constructor(private empresaSrv:EmpresaService, private uiSrv:UIServiceService) { }
 
     ngOnInit() {
@@ -35,8 +36,10 @@ export class EmpresaPage implements OnInit {
   guardar(formulario:NgForm){
 
     if(formulario.invalid ){
+      this.uiSrv.alertaInformativa("Formulario incompleto");
        return;
      }
+     if(!this.modificarEmpresa){
      this.empresaSrv.crearEmpresa(this.empresa).subscribe((resp:any)=>{
 
       
@@ -51,6 +54,31 @@ export class EmpresaPage implements OnInit {
       this.empresa.nroEmpresa=0;
       this.empresa.razonSocial="";
      });
+    } else {
+      this.empresaSrv.actualizarEmpresa(this.empresa).subscribe(resp=>{
+        this.uiSrv.alertaInformativa("Empresa Actualizada");
+      })
+    }
+
+  }
+
+    buscarEmpresa(){
+      this.empresaSrv.empresasPorNro(this.empresa.nroEmpresa).subscribe((resp:Empresa)=>{
+        this.empresa=resp;
+        this.modificarEmpresa=true;
+      },error=>{
+
+        console.log(error);
+      });
+    }
+
+    limpiarCampos(){
+      this.modificarEmpresa=false;
+      this.empresa={
+        nroEmpresa:0,
+        razonSocial:"",
+        estado:true
+      };
     }
 
 }

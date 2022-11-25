@@ -47,16 +47,31 @@
                              ></ion-input>
                 </ion-item>
 
-               <ion-item>
+                <ion-item>
+                  <ion-label>Empresa</ion-label>
+                  <ion-input name="empresa"
+                              required
+                             type="number"
+                             [(ngModel)]="titular.nroEmpresa"
+                             (ionBlur)="buscarEmpresa()" 
+                             
+                             ></ion-input>
+                </ion-item>
+
+               <ion-item *ngIf="titular.empresa">
                    
                       
-                        <ion-label>Empresa</ion-label>
-                        <ion-select [(ngModel)]="titular.nroEmpresa"  [ngModelOptions]="{standalone: true}" placeholder="Seleccione una">
-                          <ion-select-option *ngFor="let empresa of listaEmpresas" value="{{empresa.nroEmpresa}}">{{empresa.razonSocial}}</ion-select-option>
-                          
-                        </ion-select>
+                        <ion-label class="my-label">{{titular.empresa.razonSocial}}</ion-label>
+                       
                       
                   </ion-item>
+                  <ion-item *ngIf="titular.empresa == null">
+                   
+                      
+                    <ion-label>Empresa no encontrada</ion-label>
+                   
+                  
+              </ion-item>
 
                   <ion-item>
                     <ion-label>Apellido</ion-label>
@@ -81,6 +96,15 @@
                                type="date"
                                required
                                [(ngModel)]="titular.fechaNacimiento"
+                               ></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Teléfono</ion-label>
+                    <ion-input name="telefono"
+                               type="text"
+                               required
+                               [(ngModel)]="titular.telefono"
                                ></ion-input>
                   </ion-item>
 

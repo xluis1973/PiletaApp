@@ -51,6 +51,7 @@ export class TitularService {
       'x-token':this.usuarioSrv.token
     });
 
+    console.log("Titular Actualizado ",titular);
     return this.http.put(`${URL}/api/titulares/update`,titular,{headers});
   }
 }
