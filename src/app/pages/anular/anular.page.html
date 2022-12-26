@@ -2,4 +2,106 @@
 
 <ion-content>
 
+    <ion-grid fixed>
+        <ion-row class="custom-bg">
+        
+          <ion-col >
+    
+            <form (ngSubmit)="borrarTitular(formulario)" #formulario="ngForm"  >
+            
+                    
+            <ion-row class="custom-bg">
+              <ion-col>
+                
+                  <ion-list>
+                    
+                    <ion-item >
+                      <ion-label>Nro de Afiliado</ion-label>
+                      <ion-input name="nroAfiliado"
+                                required
+                                type="number"
+                                [(ngModel)]="nroAfiliado"
+                                 ></ion-input>
+                    </ion-item>
+      
+                    
+                  </ion-list>
+              </ion-col>
+            </ion-row>
+          
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <ion-button type="submit"
+                            color="tertiary"
+                            shape="round">
+                Borrar Titular y Grupo
+              </ion-button>
+            </ion-col>
+          </ion-row>
+    
+       
+        </form>
+        
+          </ion-col>
+        </ion-row>
+       
+      </ion-grid>
+
+      <ion-grid fixed>
+        <ion-row class="custom-bg">
+        
+          <ion-col >
+    
+            <form (ngSubmit)="borrarFamiliar(formulariox)" #formulariox="ngForm"  >
+            
+                    
+            <ion-row class="custom-bg">
+              <ion-col>
+                
+                  <ion-list>
+                    
+                    <ion-item >
+                      <ion-label>Nro de Afiliado</ion-label>
+                      <ion-input name="nroAfiliado"
+                                required
+                                type="number"
+                                [(ngModel)]="nroAfiliado"
+                                 ></ion-input>
+                    </ion-item>
+      
+                    <ion-item>
+                      <ion-label>Nro de Documento</ion-label>
+                      <ion-input name="dni"
+                                  required
+                                 type="text"
+                                 [(ngModel)]="dni"
+                                 ></ion-input>
+                    </ion-item>
+                   
+      
+                  </ion-list>
+              </ion-col>
+            </ion-row>
+          
+          
+            
+    
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <ion-button type="submit"
+                            color="tertiary"
+                            shape="round">
+                Borrar Familiar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+    
+       
+        </form>
+        
+          </ion-col>
+        </ion-row>
+       
+      </ion-grid>
+    
 </ion-content>

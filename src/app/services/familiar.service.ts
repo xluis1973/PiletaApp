@@ -53,4 +53,20 @@ export class FamiliarService {
     return this.http.put(`${URL}/api/familiares/update`,familiar,{headers});
     
   }
+
+  borrarFamiliarPorNro(nro:number,doc:number){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token,
+      
+    });
+ 
+ 
+    
+
+
+    return this.http.get(`${URL}/api/familiares/borrar?nroAfiliado=`+nro+"&dni="+doc,{headers:headers});
+  }
 }

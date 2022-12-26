@@ -54,4 +54,21 @@ export class TitularService {
     console.log("Titular Actualizado ",titular);
     return this.http.put(`${URL}/api/titulares/update`,titular,{headers});
   }
+
+
+  borrarTitularPorNro(nro:number){
+    this.usuarioSrv.cargarToken();
+
+    const headers=new HttpHeaders({
+
+      'x-token':this.usuarioSrv.token,
+      
+    });
+ 
+ 
+    
+
+
+    return this.http.get(`${URL}/api/titulares/borrar?nroAfiliado=`+nro,{headers:headers});
+  }
 }
