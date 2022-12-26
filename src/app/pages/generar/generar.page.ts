@@ -180,7 +180,8 @@ this.familiar={
     nroAfiliado:this.titular.nroAfiliado,
     foto:"",
     fotoMostrar:"",
-    estado:true
+    estado:true,
+    telefono:this.titular.telefono
 
   };
   this.webcamImage=null;
@@ -210,7 +211,8 @@ this.familiar={
   nroAfiliado:this.titular.nroAfiliado,
   foto:"",
   fotoMostrar:"",
-  estado:true
+  estado:true,
+  telefono:this.titular.telefono
 
 };
 this.webcamImage=null;
