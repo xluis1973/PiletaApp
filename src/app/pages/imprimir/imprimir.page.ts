@@ -193,13 +193,16 @@ export class ImprimirPage implements OnInit {
    generarPDFFamiliares(){
 
     var tablas:any[]=[];
+    var can:number=0;
      this.familiares.forEach( familiar=>{
+     
+      
       tablas.push({
-        margin: [-5,15,-5,-3],
+        margin: [-5,10,-5,-3],
         table:{
 
           widths: ['50%','25%','25%'],
-          
+          dontBreakRows:true,
           body:[
             [
               {text:'Sindicato Empleados de Comercio', fontSize:12, alignment: 'center', italics:'Helvetica-Oblique', width:'*'},
@@ -272,8 +275,21 @@ export class ImprimirPage implements OnInit {
     var tabla={
       content:[
         
-        tablas
-  ]
+        tablas,
+        
+      ],
+      pageBreakBefore: function(currentNode, nodesObject) {
+        can++;
+        console.log(nodesObject);
+        if(can===44){
+          can=0;
+          return true;
+        }
+        return false;
+        
+      
+      }
+  
   };
     console.log("familires ",this.familiares);
     console.log("tablas ",tablas);
