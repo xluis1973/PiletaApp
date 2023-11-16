@@ -9,6 +9,8 @@ import { GenerarPageRoutingModule } from './generar-routing.module';
 import { GenerarPage } from './generar.page';
 import { ComponentsModule } from '../../components/components/components.module';
 import { WebcamModule } from 'ngx-webcam';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { WebcamModule } from 'ngx-webcam';
     IonicModule,
     GenerarPageRoutingModule,
     ComponentsModule,
-    WebcamModule
+    WebcamModule,
+    PipesModule,
+    
   ],
   declarations: [GenerarPage]
 })

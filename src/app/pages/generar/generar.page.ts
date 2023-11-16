@@ -9,6 +9,8 @@ import { Titular, Familiar, Empresa } from '../../interfaces/interfaces';
 import { EmpresaService } from '../../services/empresa.service';
 import { FamiliarService } from '../../services/familiar.service';
 import { environment } from '../../../environments/environment.prod';
+
+
 const URL=environment.url;
 @Component({
   selector: 'app-generar',
@@ -48,17 +50,16 @@ export class GenerarPage implements OnInit {
   public textoTitular:string="Registar Titular";
   public textoFamiliar:string="Registrar Familiar";
   public encontroAfiliado:boolean=false;
+ 
+  textoBuscar='*';
 
   constructor(private titularSrv:TitularService,private uiSrv:UIServiceService, 
     private EmpresaSrv:EmpresaService, private familiarSrv:FamiliarService) { }
 
   listaEmpresas:Empresa[]=[];
+ 
   ngOnInit() {
-    this.EmpresaSrv.empresasAll().subscribe((resp:any)=>{
-
-      this.listaEmpresas=resp;
-      console.log("listado",this.listaEmpresas);
-    });
+    this.cargarEmpresas();
   this.limpiarCampos();
   }
  
@@ -79,7 +80,11 @@ export class GenerarPage implements OnInit {
    return this.trigger.asObservable();
   }
 
-  
+  empresaElegida(emp:Empresa){
+    this.titular.empresa=emp;
+    this.textoBuscar=emp.razonSocial;
+
+  }
   guardar(formulario:NgForm){
 
    if(formulario.invalid || !this.webcamImage){
@@ -271,6 +276,7 @@ buscarAfiliado(){
       if(cod.nroEmpresa==resp.nroEmpresa){return cod;}else {return null;}
     });
     this.titular=resp;
+    this.textoBuscar=this.titular.empresa.razonSocial;
     this.lista.push(this.titular);
     this.textoTitular="Modificar Titular";
     this.encontroAfiliado=true;
@@ -325,5 +331,23 @@ buscarEmpresa(){
   if(empresa){
     this.titular.empresa=empresa;
   }
+}
+getItems(ev:any){
+
+  this.textoBuscar=ev.detail.value;
+
+}
+async cargarEmpresas(){
+  //this.listaEmpresas=[];
+  
+  this.listaEmpresas=await this.EmpresaSrv.empresasAll2() as Empresa[];
+  
+  /*this.EmpresaSrv.empresasAll().subscribe((resp:any)=>{
+
+    this.listaEmpresas=resp;
+    console.log("listado",this.listaEmpresas);
+  });
+  */
+  
 }
 }

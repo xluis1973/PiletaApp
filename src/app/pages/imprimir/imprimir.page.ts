@@ -123,7 +123,7 @@ export class ImprimirPage implements OnInit {
               ],
               [
                 
-                {text:'Villa Deportiva 26 de Septiembre 2022-2023', fontSize:10, alignment: 'center',bold : true, width:'*'},
+                {text:'Villa Deportiva 26 de Septiembre 2023-2024', fontSize:10, alignment: 'center',bold : true, width:'*'},
                 {},
                 {}
 
@@ -212,7 +212,7 @@ export class ImprimirPage implements OnInit {
             ],
             [
               
-              {text:'Villa Deportiva 26 de Septiembre 2022-2023', fontSize:10, alignment: 'center',bold : true, width:'*'},
+              {text:'Villa Deportiva 26 de Septiembre 2023-2024', fontSize:10, alignment: 'center',bold : true, width:'*'},
               {},
               {}
 

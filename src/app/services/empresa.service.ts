@@ -28,6 +28,47 @@ export class EmpresaService {
        
 
   }
+  empresasAll2(){
+    return new Promise(resolve=>{
+
+      this.usuarioSrv.cargarToken();
+
+  
+
+      console.log("token para empresas ",this.usuarioSrv.token);
+        const headers=new HttpHeaders({
+   
+          'x-token':this.usuarioSrv.token
+        });
+        
+         this.http.get(`${URL}/api/empresas/all`,{headers}).subscribe(
+
+          resp=>{
+            console.log("salida respuesta ",resp);
+
+            if(resp){
+              resolve(resp);
+            }else{
+              resolve([]);
+            }
+          }
+          ,error=>{
+
+            resolve([]);
+
+          }
+         )
+       
+
+
+
+
+
+    })
+   
+      
+
+ }
 
   crearEmpresa(empresa:Empresa){
     this.usuarioSrv.cargarToken();
